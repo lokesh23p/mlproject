@@ -262,8 +262,8 @@ struct _is {
     PyDict_WatchCallback builtins_dict_watcher;
 
     _Py_GlobalMonitors monitors;
-    bool sys_profile_initialized;
-    bool sys_trace_initialized;
+    _PyOnceFlag sys_profile_once_flag;
+    _PyOnceFlag sys_trace_once_flag;
     Py_ssize_t sys_profiling_threads; /* Count of threads with c_profilefunc set */
     Py_ssize_t sys_tracing_threads; /* Count of threads with c_tracefunc set */
     PyObject *monitoring_callables[PY_MONITORING_TOOL_IDS][_PY_MONITORING_EVENTS];
@@ -275,6 +275,8 @@ struct _is {
     /* the initial PyInterpreterState.threads.head */
     _PyThreadStateImpl _initial_thread;
     Py_ssize_t _interactive_src_count;
+    // In 3.14+ this is interp->threads.preallocated.
+    _PyThreadStateImpl *threads_preallocated;
 };
 
 
